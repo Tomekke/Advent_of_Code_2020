@@ -3,9 +3,11 @@
 def check_password(min_number, max_number, letter, password):
     return True if min_number <= password.count(letter) <= max_number else False
 
+
 def check_password_2(min_number, max_number, letter, password):
     # XOR
     return True if (password[min_number] == letter) != (password[max_number] == letter) else False
+
 
 def main():
     filename = "inputfile"
