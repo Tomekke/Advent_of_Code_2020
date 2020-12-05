@@ -28,14 +28,29 @@ def parse_input(directions):
         print("Foreign command")
 
 
-def read_input(filename):
+def day1_function(file_handler):
     max_seat_id = 0
-    with open(filename, 'r') as fh:
-        for line in fh.readlines():
-            seat_id = parse_input(line.strip()[:7]) * 8 + parse_input(line.strip()[-3:])
-            if seat_id > max_seat_id:
-                max_seat_id = seat_id
+    for line in file_handler:
+        seat_id = parse_input(line.strip()[:7]) * 8 + parse_input(line.strip()[-3:])
+        if seat_id > max_seat_id:
+            max_seat_id = seat_id
     return max_seat_id
+
+
+def day2_function(file_handler):
+    seat_ids = []
+    for line in file_handler:
+        seat_ids.append(parse_input(line.strip()[:7]) * 8 + parse_input(line.strip()[-3:]))
+    seat_ids.sort()
+    for index, seat_id in enumerate(seat_ids):
+        if seat_id != seat_ids[index+1] - 1:
+            return seat_id + 1
+
+
+def read_input(filename):
+    with open(filename, 'r') as fh:
+        # return day1_function(fh)
+        return day2_function(fh)
 
 
 def main():
