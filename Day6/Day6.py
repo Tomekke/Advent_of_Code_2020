@@ -6,19 +6,53 @@ def parse_answers(answers):
     return total
 
 
+def parse_answers_2(answers_col):
+    total = 0
+    for answers in answers_col:
+        if len(answers) > 1:
+            yes = []
+            sticked_answers = []
+            for answer in answers:
+                sticked_answers += answer
+            for char in sticked_answers:
+                if sticked_answers.count(char) == len(answers):
+                    yes.append(char)
+            total += len(set(yes))
+        else:
+            total += parse_answers(answers)
+    return total
+
+
 def main():
     filename = 'inputfile'
+    """
+    Day 1
+    """
+    # with open(filename, 'r') as fh:
+    #     lines = fh.readlines()
+    #     answer, answers = '', []
+    #     for line in lines:
+    #         if line != '\n':
+    #             answer += line.replace('\n', '')
+    #         else:
+    #             answers.append(answer.strip())
+    #             answer = ''
+    #     answers.append(answer.strip())
+    # print(parse_answers(answers))
+    """
+    Day 2
+    """
     with open(filename, 'r') as fh:
         lines = fh.readlines()
-        answer, answers = '', []
+        answer, answers = [], []
         for line in lines:
             if line != '\n':
-                answer += line.replace('\n', '')
+                answer.append(line.strip())
             else:
-                answers.append(answer.strip())
-                answer = ''
-        answers.append(answer.strip())
-    print(parse_answers(answers))
+                answers.append(answer)
+                answer = []
+        answers.append(answer)
+    print(parse_answers_2(answers))
 
 
 if __name__ == '__main__':
