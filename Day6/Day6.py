@@ -9,17 +9,14 @@ def parse_answers(answers):
 def parse_answers_2(answers_col):
     total = 0
     for answers in answers_col:
-        if len(answers) > 1:
-            yes = []
-            sticked_answers = []
-            for answer in answers:
-                sticked_answers += answer
-            for char in sticked_answers:
-                if sticked_answers.count(char) == len(answers):
-                    yes.append(char)
-            total += len(set(yes))
-        else:
-            total += parse_answers(answers)
+        yes = []
+        sticked_answers = []
+        for answer in answers:
+            sticked_answers += answer
+        for char in sticked_answers:
+            if sticked_answers.count(char) == len(answers):
+                yes.append(char)
+        total += len(set(yes))
     return total
 
 
