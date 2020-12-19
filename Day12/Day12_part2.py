@@ -1,3 +1,20 @@
+import math
+
+
+def calculate_vector(degrees):
+    global waypoint
+    x, y = waypoint
+    angle = math.acos(x/math.sqrt(x ** 2 + y ** 2))
+    # angle = (y/abs(y)) * math.acos(x/math.sqrt(x ** 2 + y ** 2))
+    # angle = math.atan(y/x)
+    # if x < 0:
+    #     angle = math.radians(180) - abs(angle)
+    if y < 0:
+        angle = -angle
+
+    waypoint[0] = int(round(math.sqrt(x ** 2 + y ** 2) * math.cos(angle + math.radians(int(degrees)))))
+    waypoint[1] = int(round(math.sqrt(x ** 2 + y ** 2) * math.sin(angle + math.radians(int(degrees)))))
+
 
 def N(distance):
     print('going north ' + str(distance))
@@ -24,35 +41,19 @@ def W(distance):
 
 
 def F(distance):
+    print('moving ' + distance + ' forward')
     global coordinates
-    coordinates = [coordinates[0] * distance, coordinates[1] * distance]
+    coordinates = [coordinates[0] + waypoint[0] * int(distance), coordinates[1] + waypoint[1] * int(distance)]
 
 
 def R(degrees):
-    print('moving ' + str(degrees) + ' to the right')
-    global waypoint
-    if wind_direction == 0:
-        pass
-    elif wind_direction == 90:
-        waypoint = [waypoint[1], waypoint[0]]
-    elif wind_direction == 180:
-        waypoint = [waypoint[0], waypoint[1]]
-    elif wind_direction == 270:
-        pass
+    print('moving ' + degrees + ' to the right')
+    calculate_vector(degrees)
 
 
 def L(degrees):
     print('moving ' + str(degrees) + ' to the left')
-    global wind_direction
-    wind_direction = (wind_direction + int(degrees)) % 360
-    if wind_direction == 0:
-        N(distance)
-    elif wind_direction == 90:
-        W(distance)
-    elif wind_direction == 180:
-        S(distance)
-    elif wind_direction == 270:
-        E(distance)
+    calculate_vector(360-int(degrees))
 
 
 def move(direction):
@@ -70,7 +71,7 @@ def move(direction):
 
 
 def main():
-    filename = 'testinput'
+    filename = 'inputfile'
     directions = []
     with open(filename, 'r') as fh:
         for line in fh.readlines():
@@ -78,11 +79,12 @@ def main():
     for direction in directions:
         move(direction)
         print(coordinates)
+        print(waypoint)
     print(abs(coordinates[0]) + abs(coordinates[1]))
 
 
 if __name__ == '__main__':
     coordinates = [0, 0]
-    waypoint = [10, 1]
+    waypoint = [-10, 1]
     wind_direction = 270
     main()
